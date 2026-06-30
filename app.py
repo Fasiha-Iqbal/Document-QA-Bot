@@ -1,9 +1,16 @@
 import streamlit as st
+from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from groq import Groq
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
+st.set_page_config(
+    page_title="Optimus AI Document Assistant",
+    page_icon="📄",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 st.markdown("""
 <style>
 /* Background */
@@ -56,15 +63,33 @@ div[data-testid="stFileUploader"] {
 </style>
 """, unsafe_allow_html=True)
 # ---------------- CONFIG ----------------
-st.set_page_config(
-    page_title="Optimus AI Document Assistant",
-    page_icon="📄",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-st.title("📄 Optimus AI Document Assistant")
-st.caption("Upload PDFs, get AI summaries, and ask smart questions using RAG-powered search")
-st.divider()
+
+st.markdown("""
+<div style="
+background: linear-gradient(135deg,#7C3AED,#2563EB);
+padding:35px;
+border-radius:22px;
+text-align:center;
+margin-bottom:30px;
+box-shadow:0 0 30px rgba(124,58,237,.35);
+">
+
+<h1 style="
+color:white;
+font-size:46px;
+margin-bottom:10px;">
+📄 Optimus AI Document Assistant
+</h1>
+
+<p style="
+color:#E5E7EB;
+font-size:20px;
+margin-bottom:0;">
+Upload PDFs, generate AI summaries, and ask intelligent questions using RAG-powered search.
+</p>
+
+</div>
+""", unsafe_allow_html=True)
 st.markdown("""
 ### ⚡ AI Capabilities
 ✔ Smart Document Summarization  
@@ -86,6 +111,9 @@ with st.sidebar:
 st.info("💡 Tip: Ask specific questions like 'summarize section 2' or 'what is the conclusion?'")
 # ---------------- API ----------------
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def ask_ai(prompt):
